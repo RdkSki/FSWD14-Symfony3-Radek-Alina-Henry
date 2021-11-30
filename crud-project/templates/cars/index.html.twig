@@ -1,0 +1,30 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2 class="page-header"> Available Cars </h2>
+    <table class="table table-striped">
+        <thead>
+           <tr>
+                <th>#</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Actions</th>
+           </tr>
+        </thead>
+        <tbody>
+           {% for car in cars %} {# making a loop in twig inside the variable cars #}
+                <tr>
+                    <th scope="row">{{car.id}}</th> {# the id of the car #}
+                    <td>{{car.brand}}</td> {# the name of the car #}
+                    <td>{{car.price}}</td> {# the price of the car #}
+                    <td>{{car.year}}</td> {# the year of the car, when we want to print a date we must choose the format |date('F j, Y, g:i a') otherwise we will have error #}
+                    <td> <a href="/details/{{car.id}}" class="btn btn-success">View</a> {# a tag to go to the path /details/{{car.id}} so we send the id of the record with the path (like when we are using get method ) #}   
+                        <a href="/edit/{{car.id}}" class="btn btn-default">Edit</a>
+                        <a href="/delete/{{car.id}}" class="btn btn-danger">Delete</a>       
+                    </td>
+                </tr> 
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
