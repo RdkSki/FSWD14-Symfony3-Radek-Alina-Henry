@@ -131,7 +131,7 @@ class TodoController extends AbstractController
 
    
     #[Route("/edit/{id}", name:"todo_edit")]
-   public function edit(Request $request, $id): Response
+   public function edit(Request $request, FileUploader $fileUploader, $id): Response
    {
        /* Here we have a variable todo and it will save the result of this search and it will be one result because we search based on a specific id */
        $todo = $this->getDoctrine()->getRepository('App:Todo')->find($id);
@@ -147,6 +147,28 @@ class TodoController extends AbstractController
                 'class' => Status::class,
                 'choice_label' => 'name',
             ])
+            
+            
+            ->add('pictureUrl', FileType::class, [
+                'label' => 'Upload Picture',
+            //unmapped means that is not associated to any entity property
+                'mapped' => false,
+            //not mandatory to have a file
+                'required' => false,
+            //in the associated entity, so you can use the PHP constraint classes as validators
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image file' ,
+                    ])
+                ],
+            ])
+
 
             ->add('save', SubmitType::class, array('label'=> 'Update Todo', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-botton:15px')))
             ->getForm();
@@ -161,6 +183,15 @@ class TodoController extends AbstractController
            $priority = $form['priority']->getData();
            $due_date = $form['due_date']->getData();
            $now = new \DateTime('now');
+
+           $pictureFile = $form->get('pictureUrl')->getData();
+           //THIS IS A PICTURE VALIDATION: pictureUrl is the name given to the input field
+           if ($pictureFile) {
+               $pictureFileName = $fileUploader->upload($pictureFile);
+               $todo->setPictureUrl($pictureFileName);
+           }
+
+
            $em = $this->getDoctrine()->getManager();
            $todo = $em->getRepository('App:Todo')->find($id);
            $todo->setName($name);
