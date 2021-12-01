@@ -90,6 +90,8 @@ class TodoController extends AbstractController
                     $description = $form['description']->getData();
                     $priority = $form['priority']->getData();
                     $due_date = $form['due_date']->getData();
+                    // $fk_status = $form['fk_status']->getData();
+
                     // Here we will get the current date
                     $now = new \DateTime('now');
 
@@ -107,6 +109,7 @@ class TodoController extends AbstractController
                      $todo->setDescription($description);
                      $todo->setPriority($priority);
                      $todo->setDueDate($due_date);
+                    //  $todo->setFkStatus($fk_status);
                      $todo->setCreateDate($now);
          
                      $em = $this->getDoctrine()->getManager();
@@ -211,14 +214,13 @@ class TodoController extends AbstractController
        return $this->render('todo/edit.html.twig', array('todo' => $todo, 'form' => $form->createView()));  
    }
     #[Route("/details/{id}", name:"todo_details")]
-    public function details($id): Response
+    public function details(Request $request, $id): Response
     {
         $todo = $this->getDoctrine()->getRepository('App:Todo')->find($id);
         return $this->render('todo/details.html.twig', array('todo' => $todo));
     }
 
     #[Route("/delete/{id}", name:"todo_delete")]
-
     public function delete($id){
 
         $em = $this->getDoctrine()->getManager();
