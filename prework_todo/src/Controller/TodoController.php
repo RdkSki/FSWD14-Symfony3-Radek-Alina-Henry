@@ -78,15 +78,6 @@ class TodoController extends AbstractController
                 //form handle request
                  $form->handleRequest($request);
 
-
-                 
-                $pictureFile = $form->get('pictureUrl')->getData();
-                //pictureUrl is the name given to the input field
-                if ($pictureFile) {
-                    $pictureFileName = $fileUploader->upload($pictureFile);
-                    $product->setPictureUrl($pictureFileName);
-                }
-
                  /* Here we have an if statement, if we click submit and if  the form is valid we will take the values from the form and we will save them in the new variables */
          
                  if($form->isSubmitted() && $form->isValid()){
@@ -94,15 +85,21 @@ class TodoController extends AbstractController
          
                      // taking the data from the inputs by the name of the inputs then getData() function
          
-                     $name = $form['name']->getData();
-                     $category = $form['category']->getData();
-                     $description = $form['description']->getData();
-                     $priority = $form['priority']->getData();
-                     $due_date = $form['due_date']->getData();
-         
-                     // Here we will get the current date
-         
-                     $now = new \DateTime('now');
+                    $name = $form['name']->getData();
+                    $category = $form['category']->getData();
+                    $description = $form['description']->getData();
+                    $priority = $form['priority']->getData();
+                    $due_date = $form['due_date']->getData();
+                    $pictureFile = $form->get('pictureUrl')->getData();
+
+                    //pictureUrl is the name given to the input field
+                    if ($pictureFile) {
+                        $pictureFileName = $fileUploader->upload($pictureFile);
+                        $todo->setPictureUrl($pictureFileName);
+                    }
+
+                    // Here we will get the current date
+                    $now = new \DateTime('now');
          
                     /* these functions we bring from our entities, every column have a set function and we put the value that we get from the form */
          

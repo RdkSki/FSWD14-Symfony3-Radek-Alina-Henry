@@ -68,6 +68,11 @@ class Todo
      */
     private $fk_status;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $pictureUrl;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +158,18 @@ class Todo
     public function setFkStatus(?Status $fk_status): self
     {
         $this->fk_status = $fk_status;
+
+        return $this;
+    }
+
+    public function getPictureUrl(): ?string
+    {
+        return $this->pictureUrl;
+    }
+
+    public function setPictureUrl(?string $pictureUrl): self
+    {
+        $this->pictureUrl = $pictureUrl;
 
         return $this;
     }
