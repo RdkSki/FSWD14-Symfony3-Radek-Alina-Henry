@@ -2,50 +2,71 @@
 
 namespace App\Entity;
 
-use App\Repository\TodoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TodoRepository::class)
+ * Todo
+ *
+ * @ORM\Table(name="todo")
+ * @ORM\Entity
  */
 class Todo
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=50, nullable=false)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="category", type="string", length=255, nullable=false)
      */
     private $category;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="priority", type="string", length=255, nullable=false)
      */
     private $priority;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="due_date", type="datetime", nullable=false)
      */
-    private $due_date;
+    private $dueDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_date", type="datetime", nullable=false)
      */
-    private $create_date;
+    private $createDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Status::class)
+     */
+    private $fk_status;
 
     public function getId(): ?int
     {
@@ -102,25 +123,39 @@ class Todo
 
     public function getDueDate(): ?\DateTimeInterface
     {
-        return $this->due_date;
+        return $this->dueDate;
     }
 
-    public function setDueDate(\DateTimeInterface $due_date): self
+    public function setDueDate(\DateTimeInterface $dueDate): self
     {
-        $this->due_date = $due_date;
+        $this->dueDate = $dueDate;
 
         return $this;
     }
 
     public function getCreateDate(): ?\DateTimeInterface
     {
-        return $this->create_date;
+        return $this->createDate;
     }
 
-    public function setCreateDate(\DateTimeInterface $create_date): self
+    public function setCreateDate(\DateTimeInterface $createDate): self
     {
-        $this->create_date = $create_date;
+        $this->createDate = $createDate;
 
         return $this;
     }
+
+    public function getFkStatus(): ?Status
+    {
+        return $this->fk_status;
+    }
+
+    public function setFkStatus(?Status $fk_status): self
+    {
+        $this->fk_status = $fk_status;
+
+        return $this;
+    }
+
+
 }
