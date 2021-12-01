@@ -6,8 +6,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;//for FileUploader
+use Symfony\Component\Form\Extension\Core\Type\FileType;//for FileUploader
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Todo;
 use App\Entity\Status;
 
-use App\Service\FileUploader;
+use App\Service\FileUploader;//for FileUploader
 
 class TodoController extends AbstractController
 {
@@ -92,7 +92,7 @@ class TodoController extends AbstractController
                     $due_date = $form['due_date']->getData();
                     // Here we will get the current date
                     $now = new \DateTime('now');
-                    
+
                     $pictureFile = $form->get('pictureUrl')->getData();
                     //THIS IS A PICTURE VALIDATION: pictureUrl is the name given to the input field
                     if ($pictureFile) {
