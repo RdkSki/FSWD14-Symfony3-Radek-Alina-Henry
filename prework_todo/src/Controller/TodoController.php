@@ -90,17 +90,16 @@ class TodoController extends AbstractController
                     $description = $form['description']->getData();
                     $priority = $form['priority']->getData();
                     $due_date = $form['due_date']->getData();
+                    // Here we will get the current date
+                    $now = new \DateTime('now');
+                    
                     $pictureFile = $form->get('pictureUrl')->getData();
-
-                    //pictureUrl is the name given to the input field
+                    //THIS IS A PICTURE VALIDATION: pictureUrl is the name given to the input field
                     if ($pictureFile) {
                         $pictureFileName = $fileUploader->upload($pictureFile);
                         $todo->setPictureUrl($pictureFileName);
                     }
 
-                    // Here we will get the current date
-                    $now = new \DateTime('now');
-         
                     /* these functions we bring from our entities, every column have a set function and we put the value that we get from the form */
          
                      $todo->setName($name);
